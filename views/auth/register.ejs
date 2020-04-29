@@ -31,6 +31,15 @@
             <div class="register card">
                 <p> Tem uma conta? <a href="/"><b>Conecte-se</b></a> </p>
             </div>
+            
+            <% if(typeof msgError !== 'undefined'){ %>
+                <p>Erro ao cadastrar usuário</p>
+            <%}%>
+
+            <% if(typeof msg !== 'undefined'){ %>
+                <p>Cadastro efetuado com sucesso!</p>
+            <%}%>
+
         </form>
        
     </main>

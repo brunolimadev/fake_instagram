@@ -86,6 +86,7 @@ a{
 
 .card {
     max-width: 464px;
+    width: 100%;
     display: flex;
     margin: 20px;
     flex-direction: column;

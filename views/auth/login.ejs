@@ -24,7 +24,11 @@
                 <div class="register card">
                     <p> Não tem uma conta? <a href="/registro"><b>Cadastre-se</b></a> </p>
                 </div>
+                <% if(typeof msgError !== 'undefined'){ %>
+                    <p><%= msgError %></p>
+                <%}%>
             </form>
+             
         </div>        
     </main>
   </body>
