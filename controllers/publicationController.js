@@ -3,20 +3,29 @@ const moment = require('moment')
 const {check, validationResult, body } = require('express-validator');
 const Sequelize = require('sequelize')
 const dbConfig = require('../configs/Database')
-const {Publication, User} = require('../models')
+const {Publication, User, Comment} = require('../models')
 
 
 
 const PublicationController = {
     index: async (req, res) => {
         const posts = await Publication.findAll({
-            include: {
+            include: [{
                 model: User,
                 as: 'users',
                 required: true
-            }
+            },
+            {
+                model: Comment,
+                as: 'comments',
+                include: {
+                    model: User,
+                    as: 'user'
+                }
+            }]
         })
-    
+
+        // res.send(posts)
         res.render('index', {posts, moment})
     },
     create: (req, res) => {
@@ -44,6 +53,20 @@ const PublicationController = {
 
         return res.redirect("/home")
 
+    },
+    createComment: async (req, res) => {
+        const {description, publicationId} = req.body;
+        const {id} = req.session.user
+
+        const comments = await Comment.create({
+            description,
+            create_at: new Date(),
+            update_at: new Date(),
+            publications_id: publicationId,
+            users_id: id
+        })
+
+        res.redirect('/home')
     }
 }
 

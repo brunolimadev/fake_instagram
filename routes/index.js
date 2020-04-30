@@ -11,11 +11,14 @@ const authMiddleware = require('../middlewares/authMiddleware')
 /* GET home page. */
 
 router.get('/', authController.create);
-
 router.post('/', [
   check('email').isEmail(),
   check('senha').isLength({min: 3})
 ] ,authController.store);
+
+
+router.get('/home', authMiddleware, publicationController.index);
+router.post('/home', authMiddleware, publicationController.createComment);
 
 router.get('/registro', userController.create);
 router.post('/registro', [
@@ -25,7 +28,6 @@ router.post('/registro', [
   check('senha').isLength({min: 6}).withMessage('Senha invalida. D|eve ter no mínimo 6 caractéres'),
 ], userController.store); 
 
-router.get('/home', authMiddleware, publicationController.index);
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {

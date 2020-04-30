@@ -33,6 +33,13 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'users_id', 
             as: 'users'
         })
+
+        Publication.hasMany(listModels.Comment, {
+            foreignKey: 'publications_id', 
+            as: 'comments'
+        })
+
+
     }
 
     return Publication
