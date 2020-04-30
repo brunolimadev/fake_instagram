@@ -3,24 +3,23 @@ const {check, validationResult, body } = require('express-validator');
 const Sequelize = require('sequelize')
 const dbConfig = require('../configs/Database')
 const moment = require('moment')
+const {Publication} = require('../models')
 
 const AuthController = {
     create: async (req, res) => {
 
-        const {Publication} = require('../models')
         const user = req.session.user
-        if(!user){
-            return res.render('auth/login')
+        if(user){
+            return res.redirect('/home')
         }
 
-        const posts = await Publication.findAll()
-
-        return res.render('index', {user, posts})
+        return res.render('auth/login')
 
     },
     store: async (req, res) => {
 
         const {email, senha} = req.body
+
         const {Publication, User} = require('../models')
 
         const db = new Sequelize(dbConfig)
@@ -39,7 +38,7 @@ const AuthController = {
                 model: User,
                 as: 'users',
                 required: true
-            }
+            }   
         })
 
         const userSession = req.session.user = {

@@ -6,10 +6,12 @@ const authController = require('../controllers/authController');
 const publicationController = require('../controllers/publicationController');
 const {check, validationResult, body } = require('express-validator');
 const multer = require('multer')
+const authMiddleware = require('../middlewares/authMiddleware')
 
 /* GET home page. */
 
 router.get('/', authController.create);
+
 router.post('/', [
   check('email').isEmail(),
   check('senha').isLength({min: 3})
@@ -23,9 +25,7 @@ router.post('/registro', [
   check('senha').isLength({min: 6}).withMessage('Senha invalida. D|eve ter no mínimo 6 caractéres'),
 ], userController.store); 
 
-router.get('/home', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.get('/home', authMiddleware, publicationController.index);
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -38,7 +38,7 @@ var storage = multer.diskStorage({
  
 var upload = multer({ storage: storage })
 
-router.get('/publicacao', publicationController.create)
+router.get('/publicacao', authMiddleware, publicationController.create)
 router.post('/publicacao', upload.any(), publicationController.store)
 
 module.exports = router;
