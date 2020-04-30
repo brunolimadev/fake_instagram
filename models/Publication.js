@@ -25,8 +25,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
         tableName: 'publications',
-        timestamps: false
+        timestamps: false,
     })
+
+    Publication.associate = (listModels) => {
+        Publication.belongsTo(listModels.User, {
+            foreignKey: 'users_id', 
+            as: 'users'
+        })
+    }
 
     return Publication
 }

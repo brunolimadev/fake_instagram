@@ -6,6 +6,7 @@ const moment = require('moment')
 
 const AuthController = {
     create: async (req, res) => {
+
         const {Publication} = require('../models')
         const user = req.session.user
         if(!user){
@@ -14,27 +15,32 @@ const AuthController = {
 
         const posts = await Publication.findAll()
 
-        return res.render('index', {user, posts: posts})
+        return res.render('index', {user, posts})
 
     },
     store: async (req, res) => {
 
         const {email, senha} = req.body
-        const {Publication} = require('../models')
+        const {Publication, User} = require('../models')
 
         const db = new Sequelize(dbConfig)
-        const [user] = await db.query('SELECT * FROM users where email = :email limit 1', {
-            replacements: {
-                email: email
-            },
-            type: Sequelize.QueryTypes.SELECT
+
+        const user = await User.findOne({
+            where: {email}
         })
+      
 
         if(!user || !bcrypt.compareSync(senha, user.password)){
             return res.render('auth/login', {msgError: 'Usuário ou senha inválidos'})
         }
 
-        const posts = await Publication.findAll()
+        const posts = await Publication.findAll({
+            include: {
+                model: User,
+                as: 'users',
+                required: true
+            }
+        })
 
         const userSession = req.session.user = {
             id: user.id,
@@ -42,7 +48,7 @@ const AuthController = {
             name: user.name
         }
 
-        // res.send(posts)
+        // res.send(posts[0].users.username)
 
         return res.render('index', {user: userSession, posts, moment: moment})
 

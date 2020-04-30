@@ -1,8 +1,9 @@
 const bcrypt = require('bcrypt');
+const moment = require('moment')
 const {check, validationResult, body } = require('express-validator');
 const Sequelize = require('sequelize')
 const dbConfig = require('../configs/Database')
-const {Publications} = require('../models')
+const {Publication} = require('../models')
 
 const PublicationController = {
     create: (req, res) => {
@@ -13,7 +14,7 @@ const PublicationController = {
         const db = new Sequelize(dbConfig)
         const {id} = req.session.user
 
-        const posts = await Publications.findAll()
+        const posts = await Publication.findAll()
 
         const insert = await db.query('INSERT INTO publications(image, `like`, create_ate, update_at, users_id) values(:image, :like, :create_ate, :update_at, :users_id)', {
             replacements: {

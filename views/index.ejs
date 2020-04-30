@@ -39,7 +39,7 @@
         <div class="card-header">
           <div>
             <img class="avatar" src="/img/avatar-example.png">
-            <b>nati.carolira</b>
+            <b><%= post.users.username %></b>
           </div>
             <img src="/img/icons/more-vertical.svg">
         </div>
@@ -53,7 +53,7 @@
               <img src="/img/icons/heart.svg">
               <b><%= post.like %></b>
             </div>
-            <b>Postado no dia: <%= `${moment(post.create_ate).format('DD-MM-YYYY')}` %> </b>
+            <b>Postado no dia: <%= `${moment(post.create_ate).format('DD-MM-YYYY HH:mm')}` %> </b>
           </div>
           <div class="card-comments">
             <p><b>ovinnyoliveira</b> Mano que incrivel</p>

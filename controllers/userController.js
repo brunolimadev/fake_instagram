@@ -18,6 +18,7 @@ const UserController = {
         const erro = validationResult(req);
 
         if (erro.isEmpty()) {
+            
            const insert = db.query(`INSERT INTO users(name, email, username, password, create_at, update_at) values(:name, :email, :username, :password, :create_at, :update_at)`, {
                replacements: {
                 name: nomeCompleto,

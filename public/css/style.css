@@ -197,7 +197,7 @@ a{
     padding: 20px;
 }
 .register.card{
-    padding: 20px;
+    padding: 20px 0;
 }
 
 @media(max-width:560px){

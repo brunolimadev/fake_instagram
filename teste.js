@@ -1,10 +1,15 @@
-const path = require('path')
-const {Publication} = require('./models')
+const {Model, DataTypes} = require('sequelize')
 
-async function ver(){
-    const result = await Publication.findAll()
-    console.log(result)
-
+class User extends Model{
+    static init(sequelize){
+        super.init({
+            name: DataTypes.STRING,
+            email: DataTypes.STRING
+        },{
+            // Este parâmetro é a conexão
+            sequelize
+        })
+    }
 }
 
-ver();
+module.exports = User

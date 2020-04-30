@@ -4,6 +4,10 @@ const config = {
     database: 'fake-instagram',
     host: 'localhost',
     dialect: 'mysql',
+    define: {
+        timestamps: false,
+        underscored: false
+    }
 };
 
 module.exports = config;
