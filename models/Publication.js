@@ -28,15 +28,20 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false,
     })
 
-    Publication.associate = (listModels) => {
-        Publication.belongsTo(listModels.User, {
+    Publication.associate = (models) => {
+        Publication.belongsTo(models.User, {
             foreignKey: 'users_id', 
             as: 'users'
         })
 
-        Publication.hasMany(listModels.Comment, {
+        Publication.hasMany(models.Comment, {
             foreignKey: 'publications_id', 
             as: 'comments'
+        })
+        Publication.belongsToMany(models.User, {
+            foreignKey: 'publications_id',
+            through: 'publications_like',
+            as: 'likes' 
         })
 
 

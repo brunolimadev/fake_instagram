@@ -45,8 +45,20 @@ const AuthController = {
                     model: User,
                     as: 'user'
                 }
+            },
+            {
+                association: 'likes'
+                // attributes: [[Sequelize.fn('COUNT',Sequelize.col('likes.id')), 'total']]
+                // group: ['likes.id']
             }
+            ],
+            order:[
+                ['create_ate','DESC']
             ]
+        })
+
+        posts.forEach(post => {
+            post.like = Object.keys(post.likes).length
         })
 
         const userSession = req.session.user = {

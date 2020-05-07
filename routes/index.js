@@ -43,4 +43,7 @@ var upload = multer({ storage: storage })
 router.get('/publicacao', authMiddleware, publicationController.create)
 router.post('/publicacao', upload.any(), publicationController.store)
 
+
+router.get('/like', authMiddleware, publicationController.addLike)
+
 module.exports = router;

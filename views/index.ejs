@@ -50,8 +50,10 @@
 
           <div class="card-itens">
             <div class="likes">
-              <img src="/img/icons/heart.svg">
-              <b><%= post.like %></b>
+              <a href="/like?id=<%= post.id%>&user=<%= user.id%>" class="<%= typeof user.like == 'undefined' ? 'teste' : user.like %>">
+                <img src="/img/icons/heart.svg">
+              </a>
+                <b><%= post.like  %></b>
             </div>
             <b>Postado no dia: <%= `${moment(post.create_ate).format('DD/MM/YYYY HH:mm')}` %> </b>
           </div>
@@ -70,71 +72,7 @@
         </form>
       </div>
     <%})%>
-
-
-      <!-- <div class="card">
-        <div class="card-header">
-          <div>
-            <img class="avatar" src="/img/avatar-example.png">
-            <b>nati.carolira</b>
-          </div>
-            <img src="/img/icons/more-vertical.svg">
-        </div>
-        <div class="card-img">
-          <img src="/img/publication_example.jpg">
-        </div>
-        <div class="card-body">
-
-          <div class="card-itens">
-            <div class="likes">
-              <img src="/img/icons/heart.svg">
-              <b>35 likes</b>
-            </div>
-            <b>Postado no dia: 16/04/2020</b>
-          </div>
-          <div class="card-comments">
-            <p><b>ovinnyoliveira</b> Mano que incrivel</p>
-            <p><b>front.hendy</b> <3 </p>
-            <p><b>verofefo</b> aff.. </p>
-          </div>
-         
-        </div>
-        <form class="form-comments" action="">
-          <input type="text" placeholder="Adicione um comentário...">
-          <button>Publicar</button>
-        </form>
-      </div> -->
-      
-      <!-- <div class="card">
-        <div class="card-header">
-          <div>
-            <img class="avatar" src="/img/avatar-example.png">
-            <b>nati.carolira</b>
-          </div>
-            <img src="/img/icons/more-vertical.svg">
-        </div>
-        <div class="card-img">
-          <img src="/img/publication_example.jpg">
-        </div>
-        <div class="card-body">
-          <div class="card-itens">
-            <div class="likes">
-              <img src="/img/icons/heart.svg">
-              <b>35 likes</b>
-            </div>
-            <b>Postado no dia: 16/04/2020</b>
-          </div>
-          <div class="card-comments">
-            <p><b>ovinnyoliveira</b> Mano que incrivel</p>
-            <p><b>front.hendy</b> <3 </p>
-            <p><b>verofefo</b> aff.. </p>
-          </div>
-        </div>
-        <form class="form-comments" action="">
-          <input type="text" placeholder="Adicione um comentário...">
-          <button>Publicar</button>
-        </form>
-      </div> -->
     </main>
+    <script src="/js/index.js"></script>
   </body>
 </html>

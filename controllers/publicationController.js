@@ -3,14 +3,14 @@ const moment = require('moment')
 const {check, validationResult, body } = require('express-validator');
 const Sequelize = require('sequelize')
 const dbConfig = require('../configs/Database')
-const {Publication, User, Comment} = require('../models')
-
-
+const {Publication, User, Comment, PublicationLike} = require('../models')
 
 const PublicationController = {
     index: async (req, res) => {
         const posts = await Publication.findAll({
-            include: [{
+            // attributes:['Publication.*'],
+            include: [
+            {
                 model: User,
                 as: 'users',
                 required: true
@@ -22,10 +22,22 @@ const PublicationController = {
                     model: User,
                     as: 'user'
                 }
-            }]
+            },
+            {
+                association: 'likes'
+                // attributes: [[Sequelize.fn('COUNT',Sequelize.col('likes.id')), 'total']]
+                // group: ['likes.id']
+            },],
+            order:[
+                ['create_ate','DESC']
+            ]
         })
 
-        // res.send(posts)
+        posts.forEach(post => {
+            post.like = Object.keys(post.likes).length
+        })
+
+        // res.json(`${posts}`)
         res.render('index', {posts, moment})
     },
     create: (req, res) => {
@@ -67,6 +79,33 @@ const PublicationController = {
         })
 
         res.redirect('/home')
+    },
+    addLike: async (req, res) => {
+        const {user, id} = req.query
+        let valida = false
+
+        const like = await PublicationLike.findOne({
+            where: {
+                users_id: user,
+                publications_id: id
+            }
+        })
+
+        if(!like){
+            await PublicationLike.create({
+                users_id: user,
+                publications_id: id
+            })
+            res.redirect('/')
+        }else{
+            await PublicationLike.destroy({
+                where: {
+                    users_id: user,
+                    publications_id: id
+                }
+            })
+            res.redirect('/')
+        }
     }
 }
 
